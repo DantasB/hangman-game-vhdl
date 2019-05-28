@@ -1,0 +1,15 @@
+
+# PlanAhead Generated physical constraints 
+
+NET "leds[0]" LOC = R20;
+NET "leds[1]" LOC = T19;
+NET "leds[2]" LOC = U20;
+NET "leds[3]" LOC = U19;
+NET "leds[4]" LOC = V19;
+NET "leds[5]" LOC = V20;
+NET "leds[6]" LOC = Y22;
+NET "leds[7]" LOC = W21;
+NET "clk" LOC = E12;
+NET "ps2c" LOC = W12;
+NET "ps2d" LOC = V11;
+NET "reset" LOC = T15;

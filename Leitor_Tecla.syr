@@ -1,0 +1,571 @@
+Release 14.7 - xst P.20131013 (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.08 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.08 secs
+ 
+--> 
+Reading design: Leitor_Tecla.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+	9.1) Device utilization summary
+	9.2) Partition Resource Summary
+	9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "Leitor_Tecla.prj"
+Input Format                       : mixed
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "Leitor_Tecla"
+Output Format                      : NGC
+Target Device                      : xc3s700an-5-fgg484
+
+---- Source Options
+Top Module Name                    : Leitor_Tecla
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Mux Style                          : Auto
+Decoder Extraction                 : YES
+Priority Encoder Extraction        : Yes
+Shift Register Extraction          : YES
+Logical Shifter Extraction         : YES
+XOR Collapsing                     : YES
+ROM Style                          : Auto
+Mux Extraction                     : Yes
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Multiplier Style                   : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 500
+Add Generic Clock Buffer(BUFG)     : 24
+Register Duplication               : YES
+Slice Packing                      : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Yes
+Use Synchronous Set                : Yes
+Use Synchronous Reset              : Yes
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+Verilog 2001                       : YES
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling vhdl file "/home/sd/Downloads/Forca-em-vhdl-master/list_ch08_01_ps2_rx.vhd" in Library work.
+Architecture arch of Entity ps2_rx is up to date.
+Compiling vhdl file "/home/sd/Downloads/Forca-em-vhdl-master/fifo.vhd" in Library work.
+Architecture arch of Entity fifo is up to date.
+Compiling vhdl file "/home/sd/Downloads/Forca-em-vhdl-master/list_ch08_03_kb_lcode.vhd" in Library work.
+Architecture arch of Entity kb_code is up to date.
+Compiling vhdl file "/home/sd/Downloads/Forca-em-vhdl-master/Leitor_Tecla.vhd" in Library work.
+Architecture behavioral of Entity leitor_tecla is up to date.
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for entity <Leitor_Tecla> in library <work> (architecture <behavioral>).
+
+Analyzing hierarchy for entity <kb_code> in library <work> (architecture <arch>) with generics.
+	W_SIZE = 2
+
+Analyzing hierarchy for entity <ps2_rx> in library <work> (architecture <arch>).
+
+Analyzing hierarchy for entity <fifo> in library <work> (architecture <arch>) with generics.
+	B = 8
+	W = 2
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing Entity <Leitor_Tecla> in library <work> (Architecture <behavioral>).
+WARNING:Xst:819 - "/home/sd/Downloads/Forca-em-vhdl-master/Leitor_Tecla.vhd" line 100: One or more signals are missing in the process sensitivity list. To enable synthesis of FPGA/CPLD hardware, XST will assume that all necessary signals are present in the sensitivity list. Please note that the result of the synthesis may differ from the initial design specification. The missing signals are:
+   <eAtual>, <keybuffer>
+Entity <Leitor_Tecla> analyzed. Unit <Leitor_Tecla> generated.
+
+Analyzing generic Entity <kb_code> in library <work> (Architecture <arch>).
+	W_SIZE = 2
+WARNING:Xst:753 - "/home/sd/Downloads/Forca-em-vhdl-master/list_ch08_03_kb_lcode.vhd" line 34: Unconnected output port 'full' of component 'fifo'.
+Entity <kb_code> analyzed. Unit <kb_code> generated.
+
+Analyzing Entity <ps2_rx> in library <work> (Architecture <arch>).
+Entity <ps2_rx> analyzed. Unit <ps2_rx> generated.
+
+Analyzing generic Entity <fifo> in library <work> (Architecture <arch>).
+	B = 8
+	W = 2
+Entity <fifo> analyzed. Unit <fifo> generated.
+
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <ps2_rx>.
+    Related source file is "/home/sd/Downloads/Forca-em-vhdl-master/list_ch08_01_ps2_rx.vhd".
+WARNING:Xst:646 - Signal <b_reg<0>> is assigned but never used. This unconnected signal will be trimmed during the optimization process.
+    Found finite state machine <FSM_0> for signal <state_reg>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 6                                              |
+    | Inputs             | 2                                              |
+    | Outputs            | 3                                              |
+    | Clock              | clk                       (rising_edge)        |
+    | Reset              | reset                     (positive)           |
+    | Reset type         | asynchronous                                   |
+    | Reset State        | idle                                           |
+    | Power Up State     | idle                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+    Found 11-bit register for signal <b_reg>.
+    Found 1-bit register for signal <f_ps2c_reg>.
+    Found 8-bit register for signal <filter_reg>.
+    Found 4-bit register for signal <n_reg>.
+    Found 4-bit subtractor for signal <n_reg$addsub0000> created at line 82.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred  24 D-type flip-flop(s).
+	inferred   1 Adder/Subtractor(s).
+Unit <ps2_rx> synthesized.
+
+
+Synthesizing Unit <fifo>.
+    Related source file is "/home/sd/Downloads/Forca-em-vhdl-master/fifo.vhd".
+    Found 8-bit 4-to-1 multiplexer for signal <r_data>.
+    Found 32-bit register for signal <array_reg>.
+    Found 1-bit register for signal <empty_reg>.
+    Found 2-bit comparator equal for signal <empty_reg$cmp_eq0000> created at line 89.
+    Found 1-bit 4-to-1 multiplexer for signal <empty_reg$mux0000> created at line 83.
+    Found 1-bit register for signal <full_reg>.
+    Found 2-bit comparator equal for signal <full_reg$cmp_eq0000> created at line 97.
+    Found 1-bit 4-to-1 multiplexer for signal <full_reg$mux0000> created at line 83.
+    Found 2-bit register for signal <r_ptr_reg>.
+    Found 2-bit 4-to-1 multiplexer for signal <r_ptr_reg$mux0000> created at line 83.
+    Found 2-bit adder for signal <r_ptr_succ$add0000> created at line 72.
+    Found 2-bit register for signal <w_ptr_reg>.
+    Found 2-bit 4-to-1 multiplexer for signal <w_ptr_reg$mux0000> created at line 83.
+    Found 2-bit adder for signal <w_ptr_succ$add0000> created at line 71.
+    Summary:
+	inferred  38 D-type flip-flop(s).
+	inferred   2 Adder/Subtractor(s).
+	inferred   2 Comparator(s).
+	inferred  14 Multiplexer(s).
+Unit <fifo> synthesized.
+
+
+Synthesizing Unit <kb_code>.
+    Related source file is "/home/sd/Downloads/Forca-em-vhdl-master/list_ch08_03_kb_lcode.vhd".
+WARNING:Xst:1780 - Signal <w_data> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+    Found 1-bit register for signal <state_reg<0>>.
+    Summary:
+	inferred   1 D-type flip-flop(s).
+Unit <kb_code> synthesized.
+
+
+Synthesizing Unit <Leitor_Tecla>.
+    Related source file is "/home/sd/Downloads/Forca-em-vhdl-master/Leitor_Tecla.vhd".
+WARNING:Xst:1780 - Signal <eProximo> is never used or assigned. This unconnected signal will be trimmed during the optimization process.
+    Found finite state machine <FSM_1> for signal <eAtual>.
+    -----------------------------------------------------------------------
+    | States             | 3                                              |
+    | Transitions        | 4                                              |
+    | Inputs             | 1                                              |
+    | Outputs            | 3                                              |
+    | Clock              | clkReduzido               (rising_edge)        |
+    | Power Up State     | einicial                                       |
+    | Encoding           | automatic                                      |
+    | Implementation     | LUT                                            |
+    -----------------------------------------------------------------------
+WARNING:Xst:737 - Found 8-bit latch for signal <keyRead>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+WARNING:Xst:737 - Found 1-bit latch for signal <liberaBuf>. Latches may be generated from incomplete case or if statements. We do not recommend the use of latches in FPGA/CPLD designs, as they may lead to timing problems.
+INFO:Xst:2371 - HDL ADVISOR - Logic functions respectively driving the data and gate enable inputs of this latch share common terms. This situation will potentially lead to setup/hold violations and, as a result, to simulation problems. This situation may come from an incomplete case statement (all selector values are not covered). You should carefully review if it was in your intentions to describe such a latch.
+    Found 1-bit register for signal <clkReduzido>.
+    Found 6-bit comparator greatequal for signal <clkReduzido$cmp_ge0000> created at line 75.
+    Found 6-bit up counter for signal <contagem>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred   1 Counter(s).
+	inferred   1 D-type flip-flop(s).
+	inferred   1 Comparator(s).
+Unit <Leitor_Tecla> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 3
+ 2-bit adder                                           : 2
+ 4-bit subtractor                                      : 1
+# Counters                                             : 1
+ 6-bit up counter                                      : 1
+# Registers                                            : 14
+ 1-bit register                                        : 5
+ 11-bit register                                       : 1
+ 2-bit register                                        : 2
+ 4-bit register                                        : 1
+ 8-bit register                                        : 5
+# Latches                                              : 2
+ 1-bit latch                                           : 1
+ 8-bit latch                                           : 1
+# Comparators                                          : 3
+ 2-bit comparator equal                                : 2
+ 6-bit comparator greatequal                           : 1
+# Multiplexers                                         : 5
+ 1-bit 4-to-1 multiplexer                              : 2
+ 2-bit 4-to-1 multiplexer                              : 2
+ 8-bit 4-to-1 multiplexer                              : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_1> for best encoding.
+Optimizing FSM <eAtual/FSM> on signal <eAtual[1:2]> with user encoding.
+----------------------
+ State    | Encoding
+----------------------
+ einicial | 00
+ emeio    | 01
+ efinal   | 10
+----------------------
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <kbc/ps2_rx_unit/state_reg/FSM> on signal <state_reg[1:2]> with gray encoding.
+-------------------
+ State | Encoding
+-------------------
+ idle  | 00
+ dps   | 01
+ load  | 11
+-------------------
+WARNING:Xst:2677 - Node <b_reg_0> of sequential type is unconnected in block <ps2_rx_unit>.
+WARNING:Xst:2677 - Node <b_reg_0> of sequential type is unconnected in block <ps2_rx>.
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# FSMs                                                 : 2
+# Adders/Subtractors                                   : 3
+ 2-bit adder                                           : 2
+ 4-bit subtractor                                      : 1
+# Counters                                             : 1
+ 6-bit up counter                                      : 1
+# Registers                                            : 63
+ Flip-Flops                                            : 63
+# Latches                                              : 2
+ 1-bit latch                                           : 1
+ 8-bit latch                                           : 1
+# Comparators                                          : 3
+ 2-bit comparator equal                                : 2
+ 6-bit comparator greatequal                           : 1
+# Multiplexers                                         : 5
+ 1-bit 4-to-1 multiplexer                              : 2
+ 2-bit 4-to-1 multiplexer                              : 2
+ 8-bit 4-to-1 multiplexer                              : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <Leitor_Tecla> ...
+
+Optimizing unit <ps2_rx> ...
+
+Optimizing unit <fifo> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block Leitor_Tecla, actual ratio is 1.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 73
+ Flip-Flops                                            : 73
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : Leitor_Tecla.ngr
+Top Level Output File Name         : Leitor_Tecla
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : No
+
+Design Statistics
+# IOs                              : 12
+
+Cell Usage :
+# BELS                             : 103
+#      INV                         : 2
+#      LUT2                        : 7
+#      LUT2_D                      : 3
+#      LUT3                        : 33
+#      LUT3_L                      : 3
+#      LUT4                        : 28
+#      LUT4_D                      : 1
+#      LUT4_L                      : 18
+#      MUXF5                       : 8
+# FlipFlops/Latches                : 82
+#      FD                          : 1
+#      FDC                         : 31
+#      FDCE                        : 32
+#      FDE                         : 1
+#      FDP                         : 1
+#      FDR                         : 7
+#      LD                          : 9
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 11
+#      IBUF                        : 3
+#      OBUF                        : 8
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 3s700anfgg484-5 
+
+ Number of Slices:                       69  out of   5888     1%  
+ Number of Slice Flip Flops:             74  out of  11776     0%  
+ Number of 4 input LUTs:                 95  out of  11776     0%  
+ Number of IOs:                          12
+ Number of bonded IOBs:                  12  out of    372     3%  
+    IOB Flip Flops:                       8
+ Number of GCLKs:                         1  out of     24     4%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-------------------------------------+------------------------+-------+
+Clock Signal                         | Clock buffer(FF name)  | Load  |
+-------------------------------------+------------------------+-------+
+clk                                  | BUFGP                  | 71    |
+liberaBuf_or0000(liberaBuf_or00001:O)| NONE(*)(liberaBuf)     | 1     |
+clkReduzido                          | NONE(eAtual_FSM_FFd1)  | 2     |
+eAtual_FSM_FFd2                      | NONE(keyRead_0)        | 8     |
+-------------------------------------+------------------------+-------+
+(*) This 1 clock signal(s) are generated by combinatorial logic,
+and XST is not able to identify which are the primary clock signals.
+Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
+INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+
+Asynchronous Control Signals Information:
+----------------------------------------
+-----------------------------------+------------------------+-------+
+Control Signal                     | Buffer(FF name)        | Load  |
+-----------------------------------+------------------------+-------+
+reset                              | IBUF                   | 64    |
+-----------------------------------+------------------------+-------+
+
+Timing Summary:
+---------------
+Speed Grade: -5
+
+   Minimum period: 4.844ns (Maximum Frequency: 206.449MHz)
+   Minimum input arrival time before clock: 2.734ns
+   Maximum output required time after clock: 5.382ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 4.844ns (frequency: 206.449MHz)
+  Total number of paths / destination ports: 568 / 109
+-------------------------------------------------------------------------
+Delay:               4.844ns (Levels of Logic = 4)
+  Source:            kbc/ps2_rx_unit/filter_reg_2 (FF)
+  Destination:       kbc/ps2_rx_unit/n_reg_1 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: kbc/ps2_rx_unit/filter_reg_2 to kbc/ps2_rx_unit/n_reg_1
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              4   0.495   0.522  kbc/ps2_rx_unit/filter_reg_2 (kbc/ps2_rx_unit/filter_reg_2)
+     LUT3:I2->O            2   0.561   0.403  kbc/ps2_rx_unit/fall_edge7 (kbc/ps2_rx_unit/fall_edge7)
+     LUT4:I2->O           16   0.561   0.881  kbc/ps2_rx_unit/fall_edge33 (kbc/ps2_rx_unit/fall_edge)
+     LUT4_L:I3->LO         1   0.561   0.102  kbc/ps2_rx_unit/n_reg_mux0000<2>_SW0 (N19)
+     LUT4:I3->O            1   0.561   0.000  kbc/ps2_rx_unit/n_reg_mux0000<2> (kbc/ps2_rx_unit/n_reg_mux0000<2>)
+     FDC:D                     0.197          kbc/ps2_rx_unit/n_reg_1
+    ----------------------------------------
+    Total                      4.844ns (2.936ns logic, 1.908ns route)
+                                       (60.6% logic, 39.4% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clkReduzido'
+  Clock period: 2.154ns (frequency: 464.242MHz)
+  Total number of paths / destination ports: 3 / 3
+-------------------------------------------------------------------------
+Delay:               2.154ns (Levels of Logic = 1)
+  Source:            eAtual_FSM_FFd2 (FF)
+  Destination:       eAtual_FSM_FFd2 (FF)
+  Source Clock:      clkReduzido rising
+  Destination Clock: clkReduzido rising
+
+  Data Path: eAtual_FSM_FFd2 to eAtual_FSM_FFd2
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDR:C->Q             11   0.495   0.901  eAtual_FSM_FFd2 (eAtual_FSM_FFd2)
+     LUT2:I0->O            1   0.561   0.000  eAtual_FSM_FFd2-In11 (eAtual_FSM_FFd2-In1)
+     FDR:D                     0.197          eAtual_FSM_FFd2
+    ----------------------------------------
+    Total                      2.154ns (1.253ns logic, 0.901ns route)
+                                       (58.2% logic, 41.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 2 / 2
+-------------------------------------------------------------------------
+Offset:              2.734ns (Levels of Logic = 3)
+  Source:            ps2d (PAD)
+  Destination:       kbc/ps2_rx_unit/b_reg_10 (FF)
+  Destination Clock: clk rising
+
+  Data Path: ps2d to kbc/ps2_rx_unit/b_reg_10
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             1   0.824   0.423  ps2d_IBUF (ps2d_IBUF)
+     LUT4_L:I1->LO         1   0.562   0.166  kbc/ps2_rx_unit/b_reg_mux0000<10>1_SW0 (N35)
+     LUT3:I1->O            1   0.562   0.000  kbc/ps2_rx_unit/b_reg_mux0000<10>1 (kbc/ps2_rx_unit/b_reg_mux0000<10>)
+     FDC:D                     0.197          kbc/ps2_rx_unit/b_reg_10
+    ----------------------------------------
+    Total                      2.734ns (2.145ns logic, 0.589ns route)
+                                       (78.5% logic, 21.5% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'eAtual_FSM_FFd2'
+  Total number of paths / destination ports: 8 / 8
+-------------------------------------------------------------------------
+Offset:              5.382ns (Levels of Logic = 1)
+  Source:            keyRead_7 (LATCH)
+  Destination:       leds<7> (PAD)
+  Source Clock:      eAtual_FSM_FFd2 falling
+
+  Data Path: keyRead_7 to leds<7>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     LD:G->Q               1   0.629   0.357  keyRead_7 (keyRead_7)
+     OBUF:I->O                 4.396          leds_7_OBUF (leds<7>)
+    ----------------------------------------
+    Total                      5.382ns (5.025ns logic, 0.357ns route)
+                                       (93.4% logic, 6.6% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 8.00 secs
+Total CPU time to Xst completion: 6.27 secs
+ 
+--> 
+
+
+Total memory usage is 613072 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    9 (   0 filtered)
+Number of infos    :    2 (   0 filtered)
+

@@ -1,0 +1,12 @@
+xst -intstyle ise -ifn "/home/sd/bdantes/Leitor_Tecla.xst" -ofn "/home/sd/bdantes/Leitor_Tecla.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc3s50a-tq144-5 Leitor_Tecla.ngc Leitor_Tecla.ngd  
+map -intstyle ise -p xc3s50a-tq144-5 -cm area -ir off -pr off -c 100 -o Leitor_Tecla_map.ncd Leitor_Tecla.ngd Leitor_Tecla.pcf 
+par -w -intstyle ise -ol high -t 1 Leitor_Tecla_map.ncd Leitor_Tecla.ncd Leitor_Tecla.pcf 
+trce -intstyle ise -v 3 -s 5 -n 3 -fastpaths -xml Leitor_Tecla.twx Leitor_Tecla.ncd -o Leitor_Tecla.twr Leitor_Tecla.pcf 
+bitgen -intstyle ise -f Leitor_Tecla.ut Leitor_Tecla.ncd 
+xst -intstyle ise -ifn "/home/sd/bdantes/Leitor_Tecla.xst" -ofn "/home/sd/bdantes/Leitor_Tecla.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc Leitor_Tecla.ucf -p xc3s700an-fgg484-5 Leitor_Tecla.ngc Leitor_Tecla.ngd  
+map -intstyle ise -p xc3s700an-fgg484-5 -cm area -ir off -pr off -c 100 -o Leitor_Tecla_map.ncd Leitor_Tecla.ngd Leitor_Tecla.pcf 
+par -w -intstyle ise -ol high -t 1 Leitor_Tecla_map.ncd Leitor_Tecla.ncd Leitor_Tecla.pcf 
+trce -intstyle ise -v 3 -s 5 -n 3 -fastpaths -xml Leitor_Tecla.twx Leitor_Tecla.ncd -o Leitor_Tecla.twr Leitor_Tecla.pcf -ucf Leitor_Tecla.ucf 
+bitgen -intstyle ise -f Leitor_Tecla.ut Leitor_Tecla.ncd 
