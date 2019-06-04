@@ -34,6 +34,7 @@ entity Leitor_Tecla is
 			clk, reset: in  std_logic; --clk da fpga
 			ps2d, ps2c: in  std_logic; 
 			leds : out std_logic_vector (7 downto 0)
+			teclou : out std_logic;
 		);
 end Leitor_Tecla;
 

@@ -1,0 +1,20 @@
+//! **************************************************************************
+// Written by: Map P.20131013 on Tue Jun 04 15:35:21 2019
+//! **************************************************************************
+
+SCHEMATIC START;
+COMP "OE" LOCATE = SITE "AB4" LEVEL 1;
+COMP "RS" LOCATE = SITE "Y14" LEVEL 1;
+COMP "RW" LOCATE = SITE "W13" LEVEL 1;
+COMP "LCD_DB<0>" LOCATE = SITE "Y13" LEVEL 1;
+COMP "LCD_DB<1>" LOCATE = SITE "AB18" LEVEL 1;
+COMP "LCD_DB<2>" LOCATE = SITE "AB17" LEVEL 1;
+COMP "LCD_DB<3>" LOCATE = SITE "AB12" LEVEL 1;
+COMP "LCD_DB<4>" LOCATE = SITE "AA12" LEVEL 1;
+COMP "LCD_DB<5>" LOCATE = SITE "Y16" LEVEL 1;
+COMP "LCD_DB<6>" LOCATE = SITE "AB16" LEVEL 1;
+COMP "LCD_DB<7>" LOCATE = SITE "Y15" LEVEL 1;
+COMP "CLK" LOCATE = SITE "E12" LEVEL 1;
+COMP "rst" LOCATE = SITE "T9" LEVEL 1;
+SCHEMATIC END;
+

@@ -43,6 +43,14 @@ architecture Behavioral of lcd is
 			    
 ------------------------------------------------------------------
 --  Component Declarations
+COMPONENT kb_code port (
+				clk, reset: in  std_logic; --clk da fpga
+				ps2d, ps2c: in  std_logic; 
+				rd_key_code: in std_logic; -- libera o buffer
+				key_code: out std_logic_vector(7 downto 0);--tecla no buffer
+				kb_buf_empty: out std_logic -- tecla foi escrita no buffer
+			);
+	END COMPONENT kb_code;
 ------------------------------------------------------------------
 
 ------------------------------------------------------------------
@@ -71,7 +79,17 @@ architecture Behavioral of lcd is
 		stEnable,					--set up E
 		stIdle						--Write data on DB(0)-DB(7)
 	);
-	
+	type jestados is (
+		jEspera,
+		jAcerto,
+		jErro,
+		jPerde
+	);
+	type mleitor is (
+		minicial,
+		mmeio,
+		mfinal
+	);
 
 ------------------------------------------------------------------
 --  Signal Declarations and Constants
@@ -96,14 +114,22 @@ architecture Behavioral of lcd is
 	signal count:std_logic_vector (16 downto 0):= "00000000000000000";	--15 bit count variable for timing delays
 	signal delayOK:std_logic:= '0';						--High when count has reached the right delay time
 	signal OneUSClk:std_logic;						--Signal is treated as a 1 MHz clock	
-	signal stCur:mstate:= stPowerOn_Delay;					--LCD control state machine
-	signal stNext:mstate;			  	
+	signal stCur:mstate:= stPowerOn_Delay;	--LCD control state machine
+	signal jAtual:jestados:= jEspera;
+	signal jNext:jestados;
+	signal stNext:mstate;
+	signal matual: mestado:= minicial;
 	signal stCurW:wstate:= stIdle; 						--Write control state machine
 	signal stNextW:wstate;
-	signal writeDone:std_logic:= '0';					--Command set finish
+	signal writeDone:std_logic:= '0';		--Command set finish
+	signal liberaBuf : std_logic := '0';
+	signal keyRead : std_logic_vector (7 downto 0):= "00000000";
+	signal keybuffer : std_logic_vector (7 downto 0);
+	signal bufEmpty : std_logic ;
+	--signal escritura: std_logic_vector (23 downto 0) := ""
 
-	type LCD_CMDS_T is array(integer range <>) of std_logic_vector(9 downto 0);
-	constant LCD_CMDS : LCD_CMDS_T := ( 0 => "00"&X"3C",			--Function Set
+	type LCD_CMDS_T is array(integer range 0 to 23) of std_logic_vector(9 downto 0);
+	signal LCD_CMDS : LCD_CMDS_T := ( 0 => "00"&X"3C",			--Function Set
 					    1 => "00"&X"0C",			--Display ON, Cursor OFF, Blink OFF
 					    2 => "00"&X"01",			--Clear Display
 					    3 => "00"&X"02", 			--return home
@@ -129,11 +155,11 @@ architecture Behavioral of lcd is
 					    20 => "10"&X"65", 			--e
 					    21 => "10"&X"6E", 			--n
 					    22 => "10"&X"74",			--t
-					    23 => "00"&X"18");			-- Shifts left
 
 													
 	signal lcd_cmd_ptr : integer range 0 to LCD_CMDS'HIGH + 1 := 0;
 begin
+kbc: kb_code port map (clk, reset, ps2d, ps2c, liberaBuf, keybuffer, bufEmpty);
  	
 	--  This process counts to 50, and then resets.  It is used to divide the clock signal time.
 	process (CLK, oneUSClk)
@@ -362,5 +388,55 @@ begin
 					end if;
 				end case;
 		end process;
+		process(oneUSClk)
+			begin
+				if oneUSClk = '1' and oneUSClk'Event then
+					case jatual is
+						when jespera => 
+							if teclou = '1' then
+								leu <= '1';
+								case keyread is
+									when a =>
+										ashow <= '1';
+									when b =>
+										bshow <= '1':
+									...
+									when others =>
+										errcount <= errocount + 1;
+									
+							end if;
+					end case;
+				end if;
+			end process;
+	process(oneUSClk)
+	begin
+		case matual is
+			when minicial=>
+				if bufempty = '0' then
+					matual <= mmeio;
+				end if;
+			when mmeio =>
+				if leu <= '1' then
+					matual <= mfinal;
+				end if;
+			when mfinal =>
+				matual <= minicial;
+	end process;
+	
+	process(oneUSClk)
+	begin
+		case matual is
+			when minicial =>
+				liberaBuf <= '0';
+			when mmeio =>
+				teclou <= '1';
+				keyRead <= keybuffer;
+			when mfinal =>
+				teclou <= '0';
+				leu<= '0';
+				liberaBuf <= '1';
+				
+	end process;
+				
 				
 end Behavioral;
