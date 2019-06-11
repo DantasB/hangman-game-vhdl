@@ -35,8 +35,11 @@ entity lcd is
 	   --ADR2:out std_logic;				--ADR(2)
 	   --CS:out std_logic;				--CSC
 	   OE:out std_logic;				--OE
-	   rst:in std_logic		);		--BTN
+	   rst:in std_logic;		--BTN
 	   --rdone: out std_logic);			--WriteDone output to work with DI05 test
+		leds : out std_logic_vector (7 downto 0);
+		ps2d, ps2c: in std_logic
+		);
 end lcd;
 
 architecture Behavioral of lcd is
@@ -49,6 +52,8 @@ COMPONENT kb_code port (
 				rd_key_code: in std_logic; -- libera o buffer
 				key_code: out std_logic_vector(7 downto 0);--tecla no buffer
 				kb_buf_empty: out std_logic -- tecla foi escrita no buffer
+				
+				
 			);
 	END COMPONENT kb_code;
 ------------------------------------------------------------------
@@ -118,7 +123,7 @@ COMPONENT kb_code port (
 	signal jAtual:jestados:= jEspera;
 	signal jNext:jestados;
 	signal stNext:mstate;
-	signal matual: mestado:= minicial;
+	signal matual: mleitor:= minicial;
 	signal stCurW:wstate:= stIdle; 						--Write control state machine
 	signal stNextW:wstate;
 	signal writeDone:std_logic:= '0';		--Command set finish
@@ -126,10 +131,25 @@ COMPONENT kb_code port (
 	signal keyRead : std_logic_vector (7 downto 0):= "00000000";
 	signal keybuffer : std_logic_vector (7 downto 0);
 	signal bufEmpty : std_logic ;
+	signal errocount: UNSIGNED (3 DOWNTO 0):= "0000";
+	signal teclou : std_logic := '0';
+	signal leu : std_logic := '0';
+	
+	type SHOW_T is array(integer range 0 to 5) of std_logic_vector(9 downto 0);
+	signal show : SHOW_T := (
+		0 => "10"&X"2E",
+		1 => "10"&X"2E",
+		2 => "10"&X"2E",
+		3 => "10"&X"2E",
+		4 => "10"&X"2E",
+		5 => "10"&X"2E"
+		);
+	
 	--signal escritura: std_logic_vector (23 downto 0) := ""
-
-	type LCD_CMDS_T is array(integer range 0 to 23) of std_logic_vector(9 downto 0);
-	signal LCD_CMDS : LCD_CMDS_T := ( 0 => "00"&X"3C",			--Function Set
+	
+	type LCD_CMDS_T is array(integer range 0 to 13) of std_logic_vector(9 downto 0);
+	signal LCD_CMDS : LCD_CMDS_T := (
+						 0 => "00"&X"3C",			--Function Set
 					    1 => "00"&X"0C",			--Display ON, Cursor OFF, Blink OFF
 					    2 => "00"&X"01",			--Clear Display
 					    3 => "00"&X"02", 			--return home
@@ -142,24 +162,40 @@ COMPONENT kb_code port (
 					    9 => "10"&X"20",  			--space
 					    10 => "10"&X"46", 			--F
 					    11 => "10"&X"72", 			--r
-					    12 => "10"&X"6F", 			--o
-					    13 => "10"&X"6D", 			--m
-													
-					    14 => "10"&X"20",			--space
-													
-					    15 => "10"&X"44", 			--D
-					    16 => "10"&X"69", 			--i
-					    17 => "10"&X"67", 			--g
-					    18 => "10"&X"69", 			--i
-					    19 => "10"&X"6C", 			--l
-					    20 => "10"&X"65", 			--e
-					    21 => "10"&X"6E", 			--n
-					    22 => "10"&X"74",			--t
+						 12 => "10"&X"72", 			--r
+						 13 => "10"&X"72");
 
-													
 	signal lcd_cmd_ptr : integer range 0 to LCD_CMDS'HIGH + 1 := 0;
 begin
-kbc: kb_code port map (clk, reset, ps2d, ps2c, liberaBuf, keybuffer, bufEmpty);
+	 leds(0) <= keyRead(0);
+	 leds(1) <= keyRead(1);
+	 leds(2) <= keyRead(2);
+	 leds(3) <= keyRead(3);
+	 leds(4) <= keyRead(4);
+	 leds(5) <= keyRead(5);
+	 leds(6) <= keyRead(6);
+	 leds(7) <= keyRead(7);
+	 
+	 LCD_CMDS(0) <= "00"&X"3C";
+	 LCD_CMDS(1) <= "00"&X"0C";
+	 LCD_CMDS(2) <= "00"&X"01";
+	 LCD_CMDS(3) <= "00"&X"02";	
+	 
+	 LCD_CMDS(4) <= show(0);
+	 LCD_CMDS(5) <= show(1);
+	 LCD_CMDS(6) <= show(2);
+	 LCD_CMDS(7) <= show(3);
+	 LCD_CMDS(8) <= show(4);
+	 LCD_CMDS(9) <= show(5);
+	 LCD_CMDS(10) <= show(3);
+
+	 
+	 LCD_CMDS(11) <= "1000100000";
+	 
+	 LCD_CMDS(12) <= "10"&"0011"&(std_logic_vector(errocount));
+	 LCD_CMDS(13) <= "00"&X"02";
+	 
+kbc: kb_code port map (CLK, rst, ps2d, ps2c, liberaBuf, keybuffer, bufEmpty);
  	
 	--  This process counts to 50, and then resets.  It is used to divide the clock signal time.
 	process (CLK, oneUSClk)
@@ -195,6 +231,8 @@ kbc: kb_code port map (clk, reset, ps2d, ps2c, liberaBuf, keybuffer, bufEmpty);
 					lcd_cmd_ptr <= lcd_cmd_ptr + 1;
 				elsif stCur = stPowerOn_Delay or stNext = stPowerOn_Delay then
 					lcd_cmd_ptr <= 0;
+				elsif teclou = '1' then
+					lcd_cmd_ptr <= 3;
 				else
 					lcd_cmd_ptr <= lcd_cmd_ptr;
 				end if;
@@ -388,43 +426,82 @@ kbc: kb_code port map (clk, reset, ps2d, ps2c, liberaBuf, keybuffer, bufEmpty);
 					end if;
 				end case;
 		end process;
-		process(oneUSClk)
+		process(rst,oneUSClk,teclou,keyread)
 			begin
-				if oneUSClk = '1' and oneUSClk'Event then
-					case jatual is
-						when jespera => 
-							if teclou = '1' then
-								leu <= '1';
+				if rst = '1' then
+					show(0) <= "10"&X"2E";
+					show(1) <= "10"&X"2E";
+					show(2) <= "10"&X"2E";
+					show(3) <= "10"&X"2E";
+					show(4) <= "10"&X"2E";
+					show(5) <= "10"&X"2E";
+					errocount <= "0000";
+
+				elsif oneUSClk = '1' and oneUSClk'Event then
+							if errocount >= 7 then
+								show(0) <= "10"&X"4B";
+								show(1) <= "10"&X"4B";
+								show(2) <= "10"&X"4B";
+								show(3) <= "10"&X"4B";
+								show(4) <= "10"&X"4B";
+								show(5) <= "10"&X"4B";
+							elsif teclou = '1' then
 								case keyread is
-									when a =>
-										ashow <= '1';
-									when b =>
-										bshow <= '1':
-									...
+									when "00011100" =>
+										show(0) <= "10"&X"41";
+										show(1 to 5) <= show(1 to 5);
+									when "00110010" =>
+										show(1) <= "10"&X"42";
+										show(0) <= show(0);
+										show(2 to 5) <= show(2 to 5);
+									when "00100011" =>
+										show(2) <= "10"&X"44";
+										show(0 to 1) <= show(0 to 1);
+										show(3 to 5) <= show(3 to 5);
+									when "00111100" =>
+										show(3) <= "10"&X"55";
+										show(0 to 2) <= show(0 to 2);
+										show(4 to 5) <= show(4 to 5);
+									when "00011010" =>
+										show(4) <= "10"&X"5A";
+										show(0 to 3) <= show(0 to 3);
+										show(5) <= show(5);
+									when "01000011" =>
+										show(5) <= "10"&X"49";
+										show(0 to 4) <= show(0 to 4);
 									when others =>
-										errcount <= errocount + 1;
-									
+										errocount <= errocount + 1;
+										show(0 to 5)<= show(0 to 5);
+								end case;
+								leu <= '1';	
+							else
+								show<=show;
 							end if;
-					end case;
 				end if;
 			end process;
 	process(oneUSClk)
 	begin
+	if oneUSClk = '1' and oneUSClk'Event then
 		case matual is
 			when minicial=>
 				if bufempty = '0' then
 					matual <= mmeio;
 				end if;
+			
 			when mmeio =>
 				if leu <= '1' then
 					matual <= mfinal;
 				end if;
+				
 			when mfinal =>
 				matual <= minicial;
+		end case;
+	end if;
 	end process;
 	
 	process(oneUSClk)
 	begin
+	if oneUSClk = '1' and oneUSClk'Event then
 		case matual is
 			when minicial =>
 				liberaBuf <= '0';
@@ -435,7 +512,8 @@ kbc: kb_code port map (clk, reset, ps2d, ps2c, liberaBuf, keybuffer, bufEmpty);
 				teclou <= '0';
 				leu<= '0';
 				liberaBuf <= '1';
-				
+		end case;
+	end if;
 	end process;
 				
 				
