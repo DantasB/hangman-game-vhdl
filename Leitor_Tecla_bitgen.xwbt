@@ -1,8 +1,0 @@
-INTSTYLE=ise
-INFILE=/home/sd/bdantes/Leitor_Tecla.ncd
-OUTFILE=/home/sd/bdantes/Leitor_Tecla.bit
-FAMILY=Spartan3A and Spartan3AN
-PART=xc3s700an-5fgg484
-WORKINGDIR=/home/sd/bdantes
-LICENSE=WebPack
-USER_INFO=211545305_0_0_116
