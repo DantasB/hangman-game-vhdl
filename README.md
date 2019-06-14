@@ -14,6 +14,6 @@ This code was a College work that had some requirements:
 
 ## Code
 The professor gave us some developed codes that would help us on understand how to lcd display worked and how to write the words in there. Below are these codes:
-- [kbcode.vhd] (kbcode.vhd)
-- [ps2_rx.vhd] (ps2_rx.vhd)
-- [fifo.vhd] (fifo.vhd)
+- [kbcode.vhd](kbcode.vhd)
+- [ps2_rx.vhd](ps2_rx.vhd)
+- [fifo.vhd](fifo.vhd)
