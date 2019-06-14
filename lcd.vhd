@@ -1,23 +1,14 @@
 ------------------------------------------------------------------
 --  lcd.vhd -- general LCD testing program
 ------------------------------------------------------------------
---  Author -- Dan Pederson, 2004
---			  -- Barron Barnett, 2004
---			  -- Jacob Beck, 2006
+--  Author -- Guilherme Bergman
+--	   -- Bruno Dantas
+--	   -- João Ricardo
 ------------------------------------------------------------------
 --  This module is a test module for implementing read/write and
 --  initialization routines for an LCD on the Digilab boards
 ------------------------------------------------------------------
---  Revision History:								    
---  05/27/2004(DanP):  created
---  07/01/2004(BarronB): (optimized) and added writeDone as output
---  08/12/2004(BarronB): fixed timing issue on the D2SB
---  12/07/2006(JacobB): Revised code to be implemented on a Nexys Board
---				Changed "Hello from Digilent" to be on one line"
---				Added a Shift Left command so that the message
---				"Hello from Diligent" is shifted left by 1 repeatedly
---				Changed the delay of character writes
-------------------------------------------------------------------
+
 
 
 library IEEE;
